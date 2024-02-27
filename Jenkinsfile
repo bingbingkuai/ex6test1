@@ -59,7 +59,7 @@ pipeline {
          branch 'br2' 
       }
       steps {
-         echo 'Now on br2'
+         echo 'This is on br2'
 
          sh ''' 
 			pwd
