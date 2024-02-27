@@ -39,12 +39,12 @@ pipeline {
     }
 
 
-    stage('Run pipeline against a gradle project - test branch') {
+    stage('Run pipeline against a gradle project - br1') {
       when {
-        not { branch 'main' }
+         branch 'br1' 
       }
       steps {
-         echo 'Unit test not main branch'
+         echo 'Unit test on br1'
 
          sh ''' 
 			pwd
@@ -53,5 +53,21 @@ pipeline {
          ''' 
       }
     }
+
+    stage('Run pipeline against a gradle project - br2') {
+      when {
+         branch 'br2' 
+      }
+      steps {
+         echo 'Now on br2'
+
+         sh ''' 
+			pwd
+          cd Chapter08/sample1; 
+          ls
+         ''' 
+      }
+    }
+
   }
 }
