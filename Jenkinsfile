@@ -38,20 +38,36 @@ pipeline {
       }
     }
 
-
-    stage('Run pipeline against a gradle project - test branch') {
+    stage('Run pipeline against a gradle project - other branches') {
       when {
-        not { branch 'main' }
+         not { branch 'main' }
       }
       steps {
-         echo 'Unit test not main branch'
-
-         sh ''' 
-			pwd
-          cd Chapter08/sample1; 
-          ./gradlew checkstyleMain
-         ''' 
+        echo 'Unit test NOT on main branch, br2'
+        script {
+          try {
+                sh ''' 
+                  pwd
+                  cd Chapter08/sample1; 
+                  ./gradlew checkstyleMain
+                ''' 
+                echo 'Test PASS!!!'
+          } catch (Exception E) {
+                echo 'Oh no. Test FAIL!!!'
+          }
+        }
+          //HTML publisher plugin
+          publishHTML (target: [
+              reportDir: 'Chapter08/sample1/build/reports/checkstyle',
+              reportFiles: 'checkstyle.xml',
+              reportName: "JaCoCo Checkstyle"
+          ])  
       }
+    }
+  }
+  post { 
+    always {
+      echo 'pipeline completed' 
     }
   }
 }
